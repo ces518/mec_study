@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>카운터 앱</title>
+</head>
+<body>
+    <div id="root">
+        <p>숫자: <span>0</span></p>
+        <button onclick="handlePlus();">+</button>
+        <button onclick="handleMinus();">-</button>
+    </div>
+    <script>
+        const result = document.querySelector('#root > p > span');
+        
+        const handlePlus = () => {
+            const number = parseInt(result.textContent);
+            result.textContent = number + 1;
+        };
+        const handleMinus = () => {
+            const number = parseInt(result.textContent);
+            result.textContent = number - 1;
+        };
+    </script>
+</body>
+</html>
