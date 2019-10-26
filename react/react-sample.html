@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>리액트</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/babel">
+        class Counter extends React.Component {
+            state = {
+                number: 0,
+            };
+            
+            handlePlus = () => {
+                const { number } = this.state;
+                this.setState({ 
+                    number: number + 1 
+                });
+            };
+
+            handleMinus = () => {
+                const { number } = this.state;
+                this.setState({
+                    number: number - 1,
+                });
+            };
+
+            render () {
+                const { state, handlePlus, handleMinus } = this;
+                return (
+                    <React.Fragment>
+                        <p>숫자: <span>{ state.number }</span></p>
+                        <button onClick={ handlePlus }>+</button>
+                        <button onClick={ handleMinus }>-</button>
+                    </React.Fragment>
+                );
+            }
+        }
+        ReactDOM.render(<Counter/>, document.querySelector('#app'));
+    </script>
+</body>
+</html>
