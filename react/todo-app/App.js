@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import Form from './Form';
 import TodoList from './TodoList';
+import Palette from './Palette';
 import './App.css';
 
 // 초기값 세팅
@@ -22,6 +23,9 @@ const todoList = [
   },
 ];
 
+// 팔레트 색상들의 값
+const colors = ['#343a40', '#f03e3e', '#12b886', '#228ae6'];
+
 const App = () => {
   // useState를 활용해 할일 목록 상태를 정의한다.
   const [todos, setTodos] = useState(todoList);
@@ -32,16 +36,19 @@ const App = () => {
   // 이를 이용해 DOM에 직접 접근도 가능하다.
   const nextId = useRef(4);
 
+  // 컬러의 값 초기값은 컬러들의 첫번째값
+  const [color, setColor] = useState(colors[0]);
+
   const onChange = e => {
     setText(e.target.value);
   };
 
   const onCreate = () => {
-    console.log(nextId.current);
     const todo = {
       id: nextId.current++,
       text,
       checked: false,
+      color,
     };
     
     // 새로운 배열을 만들어서 넣어주는 이유 ?
@@ -81,8 +88,6 @@ const App = () => {
   // 고차함수로 기존 함수를 확장한다.
   // HOF, HOC 의 개념 
   const onToggle = id => () => {
-      console.log(id);
-
       // id에 해당하는 todo를 찾음 
       const index = todos.findIndex(todo => id === todo.id);
       const todo = todos[index];
@@ -102,12 +107,29 @@ const App = () => {
       setTodos(newTodos);
   };
 
+  // TODO 삭제 함수
+  const onRemove = id => () => {
+    const newTodos = todos.filter(todo => todo.id !== id);
+    setTodos(newTodos);
+  };
+
+  // 팔레트 선택 함수
+  const onSelectColor = color => {
+    setColor(color);
+  };
+
   return (
     <main className="todo-list-template">
       <div className="title">
         오늘 할 일
       </div>
       <section className="form-wrapper">
+        {/* 팔레트 컴포넌트 랜더링 */}
+        <Palette 
+          colors={colors} 
+          selected={color} 
+          onSelect={onSelectColor}
+        />
         {/* 
           폼의 input 데이터를 관리할 text 상태를 props로 전달해준다. 
           input의 데이터가 바뀔때마다 상태로 반영해줄 onChange 함수를 지정해준다.
@@ -127,6 +149,7 @@ const App = () => {
         <TodoList 
           todos={todos} 
           onToggle={onToggle}
+          onRemove={onRemove}
         />
       </section>
     </main>
